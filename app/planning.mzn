@@ -12,9 +12,12 @@ array[1..2*(n-1), 1..n] of var -n..n: Cal;  % Calendario
 array[1..n] of var 0..Max: gira;  % Tamaño de las giras para cada equipo
 
 % Restricciones
-/*constraint forall(i in 1..2*(n-1), j in 1..n)(
-    (Cal[i, j] = 0) \/ (Cal[i, -Cal[i, j]] = -j)  % Cal[i,j] = k si y solo si Cal[i,k] = -j
-);*/
+constraint forall(i in 1..2*(n-1), j in 1..n)(
+    (Cal[i, j] > 0) -> (Cal[i, -Cal[i, j]] = -j)
+    /\ (Cal[i, j] < 0) -> (Cal[i, -Cal[i, j]] = j)
+);
+
+
 
 constraint forall(i in 1..2*(n-1))(
     all_different([abs(Cal[i, j]) | j in 1..n])  % Todos los valores en la fila i deben ser distintos y abarcar el rango 1..n
@@ -36,14 +39,6 @@ constraint forall(i in 1..n)(
     sum(j in 1..2*(n-1))(Cal[j, i] > 0) = gira[i]
 );
 
-% Restricción de costo de gira para cada equipo
-/*constraint forall(i in 1..n)(
-    sum(j in 1..n, k in 1..n where j != k)(
-        D[j, k] *
-        (exists(idx in 2..2*(n-1))(Cal[idx, i] > 0) /\
-         exists(idx in 1..2*(n-2))(Cal[idx, i] > 0 /\ Cal[idx, i] != Cal[idx+1, i]))
-    ) = gira[i]
-);*/
 
 % Solución
 solve minimize sum(i in 1..n)(gira[i]);
