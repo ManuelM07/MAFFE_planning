@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowbite Flask</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+</head>
+
+<body>
+    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
+    <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">TXT.</p>
+
+    <button id="btn_submit" class="fixed bottom-0 right-0 m-4 p-2 bg-blue-500 text-white rounded-lg">Submit</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <script>
+        document.getElementById('btn_submit').addEventListener('click', function() {
+            var fileInput = document.getElementById('file_input');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    console.log('Archivo cargado con éxito');
+                } else {
+                    console.log('Error al cargar el archivo');
+                }
+            };
+            xhr.send(formData);
+        });
+    </script>
+</body>
+
+
+</html>
