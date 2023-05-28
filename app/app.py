@@ -48,7 +48,18 @@ def parser_data(data):
 
     return sol['Cal']
 
+def organize(cal):
+    list_dates = []
+    num_date = 1
 
+    for date in cal:
+        i = 1
+        for team in date:
+            if team < 0:
+                list_dates.append([f"Equipo {abs(team)}", f"Equipo {i}", f"Ronda {num_date}"])
+            i+=1
+        num_date+=1
+    return list_dates
         
 
 if __name__ == '__main__':
