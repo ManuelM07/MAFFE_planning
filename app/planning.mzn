@@ -11,12 +11,15 @@ array[1..n, 1..n] of int: D;  % Matriz de distancias entre las ciudades sedes
 array[1..2*(n-1), 1..n] of var -n..n: Cal;  % Calendario
 array[1..n] of var 0..Max: gira;  % Tamaño de las giras para cada equipo
 
+var 0..2*(n-1) : giras;  % Número total de giras realizadas
+array[1..n] of var 0..2*(n-1): numGiras;  % Número de giras realizadas por cada equipo
+var int: costo;
+
 % Restricciones
 constraint forall(i in 1..2*(n-1), j in 1..n)(
     (Cal[i, j] > 0) -> (Cal[i, -Cal[i, j]] = -j)
     /\ (Cal[i, j] < 0) -> (Cal[i, -Cal[i, j]] = j)
 );
-
 
 
 constraint forall(i in 1..2*(n-1))(
@@ -34,16 +37,18 @@ constraint forall(j in 1..n, k in 1..n where j != k)(
 );
 
 
-% Restricción de tamaño de gira para cada equipo
-constraint forall(i in 1..n)(
-    sum(j in 1..2*(n-1))(Cal[j, i] > 0) = gira[i]
+% Restricción para calcular el costo total de las giras
+constraint costo = sum(i in 1..2*(n-1), j in 1..n-1)(
+  let {
+    var int: equipo_actual = abs(Cal[i, j]);
+    var int: equipo_siguiente = abs(Cal[i, j+1]);
+    var int: distancia = if Cal[i, j] > 0 then D[equipo_actual, equipo_siguiente] else D[equipo_siguiente, equipo_actual] endif;
+  } in distancia
 );
 
-
 % Solución
-solve minimize sum(i in 1..n)(gira[i]);
+solve minimize costo + sum(i in 1..n)(gira[i]);
 
 % Salida
 output ["Calendario:\n"] ++ [show(Cal[i, j]) ++ if j = n then "\n" else " " endif | i in 1..2*(n-1), j in 1..n] ++
-       ["Tamaño de las giras:\n"] ++ [show(gira[i]) ++ "\n" | i in 1..n];
-
+       ["Tamaño de las giras:\n"] ++ [show(costo) ++ "\n" | i in 1..n];
