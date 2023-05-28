@@ -1,2 +1,4 @@
 # MAFFE_planning
-tournament schedule planning
+## Tournament Schedule Planning
+
+MAFFE Planning is a powerful tool that provides an optimal solution for organizing sports championships, taking into account constraints such as tour limits and minimizing travel costs. It facilitates tournament planning and development, offering a fair and efficient experience for all involved teams. You will obtain the resulting schedule that shows the allocation of matches to corresponding dates and venues. This will enable better organization and planning of the championship, ensuring that all teams have an equitable distribution of matches and minimizing necessary travel.
