@@ -3,7 +3,7 @@ from planning import Data
 import re
 
 app = Flask(__name__)
-data = ""
+data = []
 
 @app.route('/')
 def hello():
@@ -17,6 +17,8 @@ def upload_file():
     
     if uploaded_file.filename.endswith('.txt'):
         file_contents = uploaded_file.read().decode('utf-8')
+        sol = parser_data(file_contents)
+        data = organize(sol)
 
         return ""
     else:
@@ -24,7 +26,7 @@ def upload_file():
     
 @app.route('/result')
 def result():
-    return render_template('result.html')
+    return render_template('result.html', data=data)
 
 
 def parser_data(data):
