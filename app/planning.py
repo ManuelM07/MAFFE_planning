@@ -24,10 +24,10 @@ class Data:
         instance["D"] = self.d
 
         if self.n <= 4 :
-            aux_time = 0
+            aux_time = 5
         else:
             aux_time = 10
 
-        self.result = instance.solve(timeout=timedelta(seconds=60*aux_time))
+        self.result = instance.solve(timeout=timedelta(seconds=aux_time))
 
         return self.result
