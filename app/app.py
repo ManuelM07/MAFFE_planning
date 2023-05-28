@@ -30,6 +30,11 @@ def result():
 
 
 def parser_data(data):
+    """
+    This function is in charge of translating the 
+    data that is read from the file, to later be 
+    able to pass it through the model
+    """
     data = re.findall("[\d]+", data)
     n = int(data[0])
     min_ = int(data[1])
@@ -50,7 +55,13 @@ def parser_data(data):
 
     return sol['Cal']
 
+
 def organize(cal):
+    """
+    This function is responsible for organizing the 
+    calendars in a simple way, so that they can be 
+    easily understood by the user.
+    """
     list_dates = []
     num_date = 1
 
@@ -58,7 +69,7 @@ def organize(cal):
         i = 1
         for team in date:
             if team < 0:
-                list_dates.append([f"Equipo {abs(team)}", f"Equipo {i}", f"Ronda {num_date}"])
+                list_dates.append([f"Equipo {abs(team)}", f"Equipo {i}", f"Fecha {num_date}"])
             i+=1
         num_date+=1
     return list_dates
